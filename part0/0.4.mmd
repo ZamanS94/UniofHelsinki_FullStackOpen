@@ -17,6 +17,7 @@ sequenceDiagram
         Server-->>Browser: Responds with main.js
         Browser->>Server: HTTP GET data.json
         Server-->>Browser: Responds with data.json
+        Browser-->>User: Displays updated Notes page
     else Validation Failed
         Server-->>Browser: Responds with validation error
     end
