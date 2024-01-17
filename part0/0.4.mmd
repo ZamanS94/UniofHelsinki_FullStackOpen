@@ -5,19 +5,12 @@ sequenceDiagram
 
     User->>Browser: Clicks submit button
     Browser->>Server: HTTP POST /new_note
-
-    alt Validation Failed
-        Server-->>Browser: Responds with validation error
-    else Successful Submission
-        Server-->>Browser: Responds with HTTP 302
-        Browser->>Server: HTTP GET /notes
-        Server-->>Browser: Responds with Notes page
-        Browser->>Server: HTTP GET main.css
-        Server-->>Browser: Responds with main.css
-        Browser->>Server: HTTP GET main.js
-        Server-->>Browser: Responds with main.js
-        Browser->>Server: HTTP GET data.json
-        Server-->>Browser: Responds with data.json
-    end
-
-
+    Server-->>Browser: Responds with HTTP 302
+    Browser->>Server: HTTP GET /notes
+    Server-->>Browser: Responds with Notes page
+    Browser->>Server: HTTP GET main.css
+    Server-->>Browser: Responds with main.css
+    Browser->>Server: HTTP GET main.js
+    Server-->>Browser: Responds with main.js
+    Browser->>Server: HTTP GET data.json
+    Server-->>Browser: Responds with data.json
