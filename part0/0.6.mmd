@@ -8,7 +8,7 @@ sequenceDiagram
     Browser->>Server: HTTP GET /exampleapp/spa
     Server-->>Browser: Responds with HTML, spa.js, main.css, main.js, data.json
     Browser->>Server: HTTP POST /new_note_spa (Form submission)
-    Browser->>Server: { content: "single page app does not reload the whole page", date: "2019-05-25T15:15:59.905Z" }
+    Browser->>Server: { content: "single page app does not reload the whole page" }
     Server->>NotesArray: Add new note to array
     Server-->>Browser: Responds with status code 201 (created)
     Browser-->>User: Displays updated SPA App
