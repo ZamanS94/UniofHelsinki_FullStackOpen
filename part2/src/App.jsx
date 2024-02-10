@@ -1,6 +1,61 @@
-
 import React, { useState } from 'react'
 import Person from "./component/persons"
+
+const Filter = ({ persons, newSearch, setSearch }) => {
+  
+  const filteredPersons = persons.filter(person =>
+    person.name.toLowerCase().includes(newSearch.toLowerCase())
+  )
+
+  const handleSearch = event => {
+    setSearch(event.target.value)
+  }
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+      <p>filter shown with: <input value={newSearch} onChange={handleSearch} /></p>
+      <ul>
+        {filteredPersons.map(person => (
+          <Person key={person.id} person={person} />
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+const Form = ({ addPerson, newPersons, newNumbers, setNewPersons, setNewNumbers }) => {
+
+  const handleNameChange = event => {
+    setNewPersons(event.target.value)
+  }
+
+  const handleNumberChange = event => {
+    setNewNumbers(event.target.value)
+  }
+
+  return (
+    <div>
+      <form onSubmit={addPerson}>
+        <p>name: <input value={newPersons} onChange={handleNameChange} /></p>
+        <p>number: <input value={newNumbers} onChange={handleNumberChange} /> </p>
+        <p> <button type="submit">add</button></p>
+      </form>
+    </div>
+  )
+
+}
+
+const Show = ({ persons }) => {
+  return (
+    <div>
+      <h2>Numbers</h2>
+      {persons.map((person) => (
+        <Person key={person.id} person={person}/>
+      ))}
+    </div>
+  )
+}
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -14,14 +69,15 @@ const App = () => {
   const [newNumbers, setNewNumbers] = useState('')
   const [newSearch, setSearch] = useState('')
 
-  const addPerson = (event) => {
+  const addPerson = event => {
     event.preventDefault()
     if (persons.some(person => person.name === newPersons)) {
-      alert(newPersons+' is already added to phonebook')
+      alert(newPersons + ' is already added to phonebook')
     } else {
       const personObject = {
         name: newPersons,
-        number: newNumbers, id: persons.length + 1
+        number: newNumbers,
+        id: persons.length + 1
       }
       setPersons(persons.concat(personObject))
       setNewPersons('')
@@ -29,48 +85,14 @@ const App = () => {
     }
   }
 
-  const handleNameChange = (event) => {
-    setNewPersons(event.target.value)
-  }
-
-  const handleNumberChange = (event) => {
-    setNewNumbers(event.target.value)
-  }
-
-  const handleSearch = (event) => {
-    setSearch(event.target.value) 
-  }
-
-  const filteredPersons = persons.filter(person =>
-    person.name.toLocaleLowerCase().includes(newSearch.toLowerCase())
-  )
-
   return (
     <div>
-      <h2>Phonebook</h2>
-        <p>filter shown with: <input value={newSearch} onChange={handleSearch} /></p>
-        <ul>
-        {filteredPersons.map(person => (
-          <Person key={person.id} person={person} />
-        ))}
-      </ul>
-      <form onSubmit={addPerson}>
-        <p>name: <input value={newPersons} onChange={handleNameChange} /></p>
-        <p>number: <input value={newNumbers} onChange={handleNumberChange} /> </p>
-        <p> <button type="submit">add</button></p>
-      </form>
-      <h2>Numbers</h2>
-      {persons.map((person) => (
-        <p key = {person.id}>{person.name} {person.number}</p>
-      ))}
+      <Filter persons={persons} newSearch={newSearch} setSearch={setSearch} />
+      <Form addPerson={addPerson} newPersons={newPersons} newNumbers={newNumbers}
+        setNewPersons={setNewPersons} setNewNumbers={setNewNumbers} />
+      <Show persons={persons} />
     </div>
   )
 }
 
 export default App
-
-// form -> event method -> new object create -> concat with real object
-// input value -> handler event method -> will set value to newPersons
-// filteredPersons method is used to filter persons.name which includes newSearch
-//  if (persons.some(person => person.name === newPersons)) ---> kind of mapping all 
-//                                                    person name and looking for minimum one match
