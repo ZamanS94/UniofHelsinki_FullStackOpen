@@ -6,16 +6,15 @@ const Course = ({course}) => {
    {part.name} {part.exercises}</p>
   )
 
-  let sum = 0
-  course.parts.map(part =>
-    sum = sum + part.exercises
-  )
+  let summation = course.parts.reduce((sumValue, part) => {
+    return sumValue + part.exercises
+  },0)
 
   return(
     <div>
     <h1>{name}</h1>
     {result}
-    <p><b>total of {sum}</b></p>
+    <p><b>total of {summation}</b></p>
     </div>
   )
 }
