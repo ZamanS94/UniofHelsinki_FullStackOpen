@@ -1,69 +1,41 @@
 import { useState } from 'react'
 
-const StatisticLine = (props) => {
-  return (
-      <tr>
-        <td>{props.text} </td>
-        <td>{props.value}</td>
-      </tr>
-  )
-}
-
-const Statistics = (props) => {
-  if (props.total === 0) {
-    return <p>No feedback given</p>
-  }
-
-  return (
-    <div>
-      <h2>statistics</h2>
-      <StatisticLine text="good" value={props.good}/>
-      <StatisticLine text="natural" value={props.natural}/>
-      <StatisticLine text="bad" value={props.bad}/>
-      <StatisticLine text="all" value={props.total}/>
-      <StatisticLine text="average" value={(props.good - props.bad) / props.total}/>
-      <StatisticLine text="positive" value={props.good / props.total*100}/>
-    </div>
-  )
-}
-
 const App = () => {
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-  const [total, setTotal] = useState(0)
+  const anecdotes = [
+    'If it hurts, do it more often.',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
+    'The only way to go fast, is to go well.'
+  ]
 
-  const handleGoodClick = () => {
-    const updatedGood = good + 1
-    setGood(updatedGood)
-    setTotal(updatedGood + bad + neutral)
+  const [selected, setSelected] = useState(0)
+
+  const handleClick = () => {
+    setSelected(selected + 1)
+    console.log(selected)
   }
 
-  const handleNeutralClick = () => {
-    const updatedNeutral = neutral + 1
-    setNeutral(updatedNeutral)
-    setTotal(good + bad + updatedNeutral)
+  if (anecdotes.length !== selected) {
+    return (
+      <div>
+        <p>{anecdotes[selected]}</p>
+        <button onClick={handleClick}>next</button>
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        <p>You've reached the end of anecdotes!</p>
+        <button onClick={() => setSelected(0)}>Restart</button>
+      </div>
+    )
   }
-
-  const handleBadClick = () => {
-    const updatedBad = bad + 1
-    setBad(updatedBad)
-    setTotal(good + neutral + updatedBad)
-  }
-
-  return (
-    <div>
-      <h2>give feedback</h2>
-      <button onClick={handleGoodClick}>good</button>
-      <button onClick={handleNeutralClick}>neutral</button>
-      <button onClick={handleBadClick}>Bad</button>
-      <Statistics good={good} bad={bad} neutral={neutral} total={total} />
-    </div>
-  )
 }
 
 export default App
-
-
 
 
