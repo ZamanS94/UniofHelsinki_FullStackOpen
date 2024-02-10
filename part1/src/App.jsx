@@ -1,6 +1,10 @@
 import { useState } from 'react'
 
 const Statistics = (props) => {
+  if (props.total === 0) {
+    return <p>No feedback given</p>
+  }
+
   return (
     <div>
       <h2>statistics</h2>
@@ -8,7 +12,7 @@ const Statistics = (props) => {
       <p>neutral {props.neutral}</p>
       <p>bad {props.bad}</p>
       <p>all {props.total}</p>
-      <p>average {(props.good - props.bad) / props.total}</p>
+      <p>average {(props.good - props.bad) / props.total*100}%</p>
       <p>positive {props.good / props.total}</p>
     </div>
   )
@@ -50,8 +54,6 @@ const App = () => {
 }
 
 export default App
-
-
 
 
 
