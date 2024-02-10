@@ -1,55 +1,41 @@
-import Course from './component/course'
+
+import React, { useState } from 'react'
 
 const App = () => {
-  const courses = [
-    {
-      name: 'Half Stack application development',
-      id: 1,
-      parts: [
-        {
-          name: 'Fundamentals of React',
-          exercises: 10,
-          id: 1
-        },
-        {
-          name: 'Using props to pass data',
-          exercises: 7,
-          id: 2
-        },
-        {
-          name: 'State of a component',
-          exercises: 14,
-          id: 3
-        },
-        {
-          name: 'Redux',
-          exercises: 11,
-          id: 4
-        }
-      ]
-    }, 
-    {
-      name: 'Node.js',
-      id: 2,
-      parts: [
-        {
-          name: 'Routing',
-          exercises: 3,
-          id: 1
-        },
-        {
-          name: 'Middlewares',
-          exercises: 7,
-          id: 2
-        }
-      ]
-    }
-  ]
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas'
+   }
+  ]) 
+  const [newPersons, setNewPersons] = useState('')
 
-  return <Course course={courses} />
+  const addPerson = (event) => {
+    event.preventDefault()
+    const personObject = {
+      name: newPersons
+    }
+    setPersons(persons.concat(personObject))
+  }
+
+  const handleNameChange = (event) => {
+    setNewPersons(event.target.value)
+  }
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+      <form onSubmit={addPerson}>
+        <input value={newPersons} onChange={handleNameChange} />
+        <button type="submit">add</button>
+      </form>
+      <h2>Numbers</h2>
+      {persons.map((person) => (
+        <p>{person.name}</p>
+      ))}
+    </div>
+  )
 }
 
 export default App
 
-
-
+// form -> event method -> new object create -> concat with real object
+// input value -> handler event method -> will set value to newPersons
