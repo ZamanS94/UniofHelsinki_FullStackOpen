@@ -1,75 +1,42 @@
-const Header = (props) => {
-  return (
-    <div>
-      <h1>
-      {props.courseName}
-      </h1>
-    </div>
-  )
-}
+import { useState } from 'react'
 
-const Part = (props) => {
 
-  return (
-    <div>
-      <p>{props.part.name} {props.part.exercises}</p>
-    </div>
-  )
-
-}
-
-const Content = (props) => {
-  return (
-    <div>
-    <Part part = {props.part1} />
-    <Part part = {props.part2}/>
-    <Part part = {props.part3}/>
-    </div>
-  )
-}
-
-const Total = (props) => {
-  return (
-    <div>
-      <p>
-      Number of exercises {props.totalCount}
-      </p>
-    </div>
-  )
-}
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>
+    {text}
+  </button>
+)
 
 const App = () => {
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7
-      },
-      {
-        name: 'State of a component',
-        exercises: 14
-      }
-    ]
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+
+  const handleGoodClick = () => {
+    setGood(good + 1)
   }
 
+  const handleNeutralClick = () => {
+    setNeutral(neutral + 1)
+  }
+
+  const handleBadClick = () => {
+    setBad(bad + 1)
+  }
 
   return (
     <div>
-      <Header courseName={course.name}/> 
-      <Content 
-      part1={course.parts[0]}
-      part2={course.parts[1]}
-      part3={course.parts[2]}
-      />
-      <Total totalCount = {course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises} />
-     
+      <h2>give feedback</h2>
+      <Button handleClick={handleGoodClick} text='good' />
+      <Button handleClick={handleNeutralClick} text='neutral' />
+      <Button handleClick={handleBadClick} text='bad' />
+      <h2>statistics</h2>
+      <p>good {good}</p>
+      <p>neutral {neutral}</p>
+      <p>bad {bad}</p>
     </div>
   )
 }
 
 export default App
+
