@@ -1,5 +1,17 @@
 import { useState } from 'react'
 
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>
+    {text}
+  </button>
+)
+
+const Button2 = ({ handleRate, text }) => (
+  <button onClick={() => handleRate()}>
+    {text}
+  </button>
+)
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -9,33 +21,31 @@ const App = () => {
     'Premature optimization is the root of all evil.',
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
-    'The only way to go fast, is to go well.'
+    'The only way to go fast is to go well.'
   ]
 
+  const initialVotesCount = Array(anecdotes.length).fill(0)
+  const [votesCount, setVotes] = useState(initialVotesCount)
   const [selected, setSelected] = useState(0)
 
-  const handleClick = () => {
-    setSelected(selected + 1)
-    console.log(selected)
+  const handleRate = () => {
+    const updatedVotesCount = [...votesCount]
+    updatedVotesCount[selected] += 1
+    setVotes(updatedVotesCount)
   }
 
-  if (anecdotes.length !== selected) {
-    return (
-      <div>
-        <p>{anecdotes[selected]}</p>
-        <button onClick={handleClick}>next</button>
-      </div>
-    )
-  } else {
-    return (
-      <div>
-        <p>You've reached the end of anecdotes!</p>
-        <button onClick={() => setSelected(0)}>Restart</button>
-      </div>
-    )
+  const handleClick = () => {
+    setSelected((selected + 1) % anecdotes.length)
   }
+
+  return (
+    <div>
+      <p>{anecdotes[selected]} </p>
+      <p>has {votesCount[selected]} votes</p>
+      <Button handleClick={handleClick} text='next anecdote' />
+      <Button2 handleRate={handleRate} text='vote' />
+    </div>
+  )
 }
 
 export default App
-
-
