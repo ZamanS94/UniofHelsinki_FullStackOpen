@@ -11,7 +11,7 @@ const App = () => {
     personService
       .getAll()
       .then(initialPersons => {
-        setPersons(initialPersons);
+        setPersons(initialPersons)
       })
   }, [])
 
@@ -43,12 +43,25 @@ const App = () => {
     setNewPersonNumber(event.target.value)
   }
 
+  const handleClick = (person) => {
+    if (window.confirm(`Delete ${person.name}?`)) {
+    personService
+      .deletePerson(person.id)
+      .then(() => {
+        setPersons(persons.filter(personV => personV.id !== person.id));
+      })
+  }}
+// axios will call the deault method. after sending the delete request, then --> setperson will be called
+// by filtering ids when id!= deleted id.  
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <p>
       {persons.map(person => (
-        <Person key={person.id} person={person} />
-      ))}
+  <Person key={person.id} person={person} handleClick={() => handleClick(person)} /> 
+))}
+       </p>
       <form onSubmit={addPerson}>
         <div>
           name:
