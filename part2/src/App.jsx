@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Person from './component/persons'
 import personService from './services/persons'
 import Notification from './component/notification'
-import './index.css'
 
 
 
@@ -52,7 +51,13 @@ const App = () => {
             setTimeout(() => {
               setMessage(null)
             }, 5000)
+          }).catch((error) => {
+            setMessage(`Information of ${newPersonName} has already been removed`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
           })
+          
       }
     }
     else{
@@ -87,7 +92,7 @@ const App = () => {
   const handleNumberChange = event => {
     setNewPersonNumber(event.target.value)
   }
-
+  
   const handleClick = (person) => {
     if (window.confirm(`Delete ${person.name}?`)) {
     personService
@@ -109,7 +114,6 @@ const App = () => {
 ))}
        </p>
       <form onSubmit={addPerson}>
-   
         <div>
           name:
           <input value={newPersonName} onChange={handleNameChange} />
