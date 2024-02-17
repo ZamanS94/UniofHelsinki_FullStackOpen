@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import Person from './component/persons'
 import personService from './services/persons'
+import Notification from './component/notification'
+import './index.css'
+
+
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newPersonName, setNewPersonName] = useState('')
   const [newPersonNumber, setNewPersonNumber] = useState('')
+  const [notificationMessage, setMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -41,6 +46,12 @@ const App = () => {
             setPersons([...persons, upPerson])
             setNewPersonName('')
             setNewPersonNumber('')
+            setMessage(
+              `${newPersonName} has been updated`
+            )
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
           })
       }
     }
@@ -57,6 +68,12 @@ const App = () => {
       setPersons([...persons, response])
       setNewPersonName('')
       setNewPersonNumber('')
+      setMessage(
+        `${newPersonName} has been added`
+      )
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     })
     }
   }
@@ -85,12 +102,14 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} />
       <p>
       {persons.map(person => (
   <Person key={person.id} person={person} handleClick={() => handleClick(person)} /> 
 ))}
        </p>
       <form onSubmit={addPerson}>
+   
         <div>
           name:
           <input value={newPersonName} onChange={handleNameChange} />
