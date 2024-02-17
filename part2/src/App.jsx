@@ -18,19 +18,47 @@ const App = () => {
   // we use this to read all the data from database
 
   const addPerson = event => {
-    event.preventDefault();
+    event.preventDefault()
+
+    let found = false
+    let matchedId = ''
+    persons.forEach(personV => {
+      if(personV.name==newPersonName) {
+        found=true
+        matchedId = personV.id 
+      }})
+    
+    if(found){
+      if (window.confirm(`Update ${newPersonName}?`)) {
+        const personObject = {
+          name: newPersonName,
+          number: newPersonNumber,
+          id: matchedId
+        }
+        personService
+          .updatePerson(matchedId,personObject)
+          .then((upPerson) => {
+            setPersons([...persons, upPerson])
+            setNewPersonName('')
+            setNewPersonNumber('')
+          })
+      }
+    }
+    else{
     const personObject = {
       name: newPersonName,
       number: newPersonNumber,
+      id: (persons.length + 1).toString()
+
     }
-  
     personService
-      .create(personObject)
-      .then(response => {
-        setPersons([...persons, response])
-        setNewPersonName('')
-        setNewPersonNumber('')
-      })
+    .create(personObject)
+    .then(response => {
+      setPersons([...persons, response])
+      setNewPersonName('')
+      setNewPersonNumber('')
+    })
+    }
   }
   
 // using this to create new object and then concate to old list

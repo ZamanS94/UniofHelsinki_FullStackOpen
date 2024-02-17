@@ -13,8 +13,8 @@ const create = async newObject => {
   return response.data
 }
 
-const update = async (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject)
+const updatePerson = async (id,newObj) => {
+  const request = axios.put(`${baseUrl}/${id}`,newObj)
   const response = await request
   return response.data
 }
@@ -28,9 +28,8 @@ const deletePerson = async(id) => {
 const personService = {
     getAll: getAll,
     create: create,
-    update: update,
+    updatePerson: updatePerson,
     deletePerson: deletePerson
   }
   
   export default personService
-
